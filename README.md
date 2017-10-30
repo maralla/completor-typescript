@@ -29,3 +29,8 @@ Change `tsserver` location:
 ```vim
 let g:completor_tsserver_binary = '/path/to/tsserver'
 ```
+
+Goto definition:
+```vim
+:call completor#do('definition')
+```
