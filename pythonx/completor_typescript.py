@@ -29,7 +29,8 @@ class Typescript(Completor):
 
     def is_message_end(self, msg):
         return b'"command":"completions"' in msg or \
-            b'"command":"definition"' in msg
+            b'"command":"definition"' in msg or \
+            b'"command":"quickinfo"' in msg
 
     def get_cmd_info(self, action):
         binary = self.get_option('tsserver_binary') or 'tsserver'
@@ -76,6 +77,11 @@ class Typescript(Completor):
                                        offset=col + 1)
         return self._prepare_cmd(fname, def_cmd)
 
+    def prepare_doc(self, fname, line, col):
+        doc_cmd = self._format_request('quickinfo', file=fname, line=line,
+                                       offset=col + 1)
+        return self._prepare_cmd(fname, doc_cmd)
+
     def prepare_request(self, action):
         self._action = action
         fname = self.filename
@@ -85,6 +91,8 @@ class Typescript(Completor):
             return self.prepare_complete(fname, line, col)
         if action == b'definition':
             return self.prepare_definition(fname, line, col)
+        if action == b'doc':
+            return self.prepare_doc(fname, line, col)
         return ''
 
     def on_complete(self, data):
@@ -128,3 +136,18 @@ class Typescript(Completor):
                 'name': word
             })
         return ret
+
+    def on_doc(self, data):
+        try:
+            res = json.loads(to_unicode(data[-1], 'utf-8'))
+        except Exception as e:
+            logger.exception(e)
+            res = {}
+        body = res.get('body')
+        if not body:
+            return []
+
+        display = body['displayString']
+        doc = body['documentation']
+        nl = ('\n\n' if display else '') if doc else ''
+        return [display + nl + doc]

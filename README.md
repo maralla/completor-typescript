@@ -3,7 +3,7 @@ completor-typescript
 
 Typescript autocompletion for [completor.vim](https://github.com/maralla/completor.vim).
 
-![Demo](https://i.imgur.com/Xrjq2EL.gif)
+![Demo](https://i.imgur.com/2Zsee68.gif)
 
 Install
 -------
