@@ -34,3 +34,8 @@ Goto definition:
 ```vim
 :call completor#do('definition')
 ```
+
+View documentation:
+```vim
+:call completor#do('doc')
+```
