@@ -2,9 +2,8 @@
 
 import json
 import logging
-import vim
 import re
-from completor import Completor
+from completor import Completor, vim
 from completor.compat import to_unicode
 
 
