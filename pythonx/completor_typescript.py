@@ -14,6 +14,7 @@ PREFIX = re.compile('(\w+)$')
 
 class Typescript(Completor):
     filetype = 'typescript'
+    aliases = ['typescript.tsx', 'typescript.jsx']
 
     def __init__(self):
         Completor.__init__(self)
@@ -104,7 +105,8 @@ class Typescript(Completor):
         match = PREFIX.search(self.input_data)
         for item in res.get('body', []):
             if not self.input_data.rstrip().endswith('.') and \
-                    (not match or match.group() not in item['name']):
+                    (not match or
+                     match.group().lower() not in item['name'].lower()):
                 continue
             ret.append({'word': item['name'], 'menu': item['kind']})
         return ret
