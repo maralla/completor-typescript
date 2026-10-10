@@ -9,7 +9,7 @@ from completor.compat import to_unicode
 
 logger = logging.getLogger('completor')
 
-PREFIX = re.compile('(\w+)$')
+PREFIX = re.compile(r'(\w+)$')
 
 
 class Typescript(Completor):
